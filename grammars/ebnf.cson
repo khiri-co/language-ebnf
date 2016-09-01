@@ -1,0 +1,113 @@
+'name': 'ebnfx'
+'scopeName': 'source.xmlebnf'
+'fileTypes': [
+  'xmlebnf'
+]
+
+'repository': {
+  # Characters
+  'characters': {
+    'comment': 'Characters'
+    'match': '[^\\\\\\-\\]]|\\\\\\\\|\\\\-|\\\\\\]|\\\\\\[|\\\\\\^'
+    'name': 'constant.character.xml-ebnf'
+  }
+  'hex_character': {
+    'comment': 'Character (Hexadecimal)'
+    'patterns': [
+      {
+        'name': 'constant.character.hexadecimal.xml-ebnf'
+        'match': '#x[0-9a-fA-F]+\\b'
+      }
+      {
+        'name': 'invalid.illegal.xml-ebnf'
+        'match': '#x.*\\b'
+      }
+    ]
+  }
+  'boxed_characters': {
+    'comment': 'Boxed Characters'
+    'begin': '\\[(\\^?)'
+    'beginCaptures': {
+      '1': 'keyword.operator.xml-ebnf'
+    }
+    'end': '\\]'
+    'patterns': [
+      { 'include': '#hex_character' }
+      { 'include': '#characters' }
+      {
+        'name': 'keyword.operator.xml-ebnf'
+        'match': '-'
+      }
+    ]
+  }
+  # String
+  'double_quote_string': {
+    'comment': 'Double-quote string literal'
+    'name': 'string.quoted.double.xml-ebnf'
+    'begin': '"'
+    'end': '"'
+  }
+  'single_quote_string': {
+    'comment': 'Double-quote string literal'
+    'name': 'string.quoted.single.xml-ebnf'
+    'begin': "'"
+    'end': "'"
+  }
+  # Expressions
+  'expressions': {
+    'patterns': [
+      { 'include': '#constraint' }
+      { 'include': '#hex_character' }
+      { 'include': '#boxed_characters' }
+      { 'include': '#double_quote_string' }
+      { 'include': '#single_quote_string' }
+      { 'include': '#item' }
+      { 'include': '#operator' }
+    ]
+  }
+  # Comments
+  'block_comment': {
+    'comment': 'Block comment'
+    'name': 'comment.block.xml-ebnf'
+    'begin': '/\\*'
+    'end': '\\*/'
+  }
+  # item
+  'item': {
+    'comment': 'Item'
+    'match': '\\b[a-zA-Z_][a-zA-Z_]*\\b'
+    'name': 'variable.other.xml-ebnf'
+  }
+  # Operators
+  'operator': {
+    'comment': 'Operators'
+    'match': '(\\b|(?<=[\\)\\]]))[\\?\\|\\-\\+*]'
+    'name': 'keyword.operator.xml-ebnf'
+  }
+  # Constraints
+  'constraint': {
+    'begin': '\\[[ \\t]*(?i:(WFC|VC)):'
+    'beginCaptures': {
+      '1': { 'name': 'keyword.other.xml-ebnf' }
+    }
+    'end': '\\]'
+    'name': 'comment.block.xml-ebnf'
+  }
+}
+
+'patterns': [
+  # Definitions
+  {
+    'comment': 'Definition Line'
+    'begin': '\\b([a-zA-Z_][a-zA-Z_]*)[ \\t]*(::=)'
+    'beginCaptures': {
+      '1': { 'name': 'entity.name.type.xml-ebnf' }
+      '2': { 'name': 'keyword.other.xml-ebnf' }
+    }
+    'end': '(?=[ \\t]*[a-zA-Z_][a-zA-Z_]*[ \\t]*::=)'
+    'patterns': [
+      { 'include': '#block_comment' }
+      { 'include': '#expressions' }
+    ]
+  }
+]

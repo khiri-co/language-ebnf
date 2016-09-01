@@ -1,0 +1,32 @@
+fs = require 'fs'
+{Emitter, CompositeDisposable, Task, Range} = require 'atom'
+SymbolLinker = require './symbol-linker'
+
+module.exports =
+class Project
+  
+  constructor: ->
+    console.log("Project.constructor()")
+    @subscriptions = new CompositeDisposable
+    @symbolLinkersByEditorId = new Object
+    
+    @subscriptions.add atom.workspace.observeTextEditors (editor) =>
+      scopeNames = editor.getRootScopeDescriptor().getScopesArray()
+      if 'source.xml-ebnf' in scopeNames
+        console.log("Have source.xmlebnf in #{scopeNames}.")
+        @symbolLinkersByEditorId[editor.id] = new SymbolLinker(editor)
+      else
+        console.log("Do not have source.xmlebnf in #{scopeNames}..")
+  
+  destroy: ->
+    console.log("Project.destroy()")
+    return if @destroyed
+
+    #@terminateRunningTask()
+    @subscriptions.dispose()
+    for editorId,linker of @symbolLinkersByEditorId
+      linker.destroy()
+    @destroyed = true
+    
+
+

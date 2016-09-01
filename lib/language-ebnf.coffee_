@@ -1,0 +1,15 @@
+
+{Emitter, CompositeDisposable, Task, Range} = require 'atom'
+Project = require './project'
+
+module.exports =
+
+  activate: (state) ->
+    console.log("Activate!")
+    @project = new Project()
+  
+  deactivate: ->
+    console.log("Deactivate!")
+    @getProject()?.destroy?()
+  
+  getProject: -> @project
