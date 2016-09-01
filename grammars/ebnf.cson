@@ -1,5 +1,5 @@
-'name': 'ebnfx'
-'scopeName': 'source.xmlebnf'
+'name': 'XML-EBNF'
+'scopeName': 'source.xml-ebnf'
 'fileTypes': [
   'xmlebnf'
 ]

@@ -3,9 +3,24 @@
 // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
 // for a full listing of what's available.
 @import "ui-variables";
+@import "syntax-variables";
 
 .language-ebnf {
 
+}
+atom-text-editor[data-grammar*='source xml-ebnf']::shadow {
+  .source.metapost {
+    
+  }
+  
+  .sample-flash .region {
+    border-style: solid;
+    border-color: @syntax-result-marker-color;//@syntax-background-color;
+    border-width: 2px;
+    border-radius: 4px; 
+    //-webkit-filter: invert(100%);
+    //filter: invert(100%);
+  }
 }
 
 /*
