@@ -5,4 +5,5 @@ Adds syntax highlighting to [XML EBNF](https://www.w3.org/TR/REC-xml/#sec-notati
 ![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
 
 ## Hyperclick support
-A [hyperclick](https://atom.io/packages/hyperclick) provider that lets you jump to where symbols are defined.
+Adds a provider for [Hyperclick](https://atom.io/packages/hyperclick).
+`<cmd-click>` on a symbol to lets you jump to where symbols are defined.
